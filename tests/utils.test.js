@@ -3,7 +3,8 @@ const {
   calculateAverage,
   slugify,
   clamp,
-} = require('../src/utils');
+  sortStudents,
+} = require("../src/utils");
 
 describe('utils', () => {
   describe('capitalize', () => {
@@ -76,5 +77,81 @@ describe('utils', () => {
     test('should return the same value when min and max are equal', () => {
       expect(clamp(0, 0, 0)).toBe(0);
     });
+  });
+});
+
+describe("sortStudents", () => {
+  const students = [
+    { name: "Charlie", grade: 80, age: 20 },
+    { name: "Alice", grade: 95, age: 22 },
+    { name: "Bob", grade: 70, age: 19 },
+  ];
+
+  it("should sort students by grade ascending", () => {
+    const result = sortStudents(students, "grade", "asc");
+    expect(result).toEqual([
+      { name: "Bob", grade: 70, age: 19 },
+      { name: "Charlie", grade: 80, age: 20 },
+      { name: "Alice", grade: 95, age: 22 },
+    ]);
+  });
+
+  it("should sort students by grade descending", () => {
+    const result = sortStudents(students, "grade", "desc");
+    expect(result).toEqual([
+      { name: "Alice", grade: 95, age: 22 },
+      { name: "Charlie", grade: 80, age: 20 },
+      { name: "Bob", grade: 70, age: 19 },
+    ]);
+  });
+
+  it("should sort students by name ascending", () => {
+    const result = sortStudents(students, "name", "asc");
+    expect(result).toEqual([
+      { name: "Alice", grade: 95, age: 22 },
+      { name: "Bob", grade: 70, age: 19 },
+      { name: "Charlie", grade: 80, age: 20 },
+    ]);
+  });
+
+  it("should sort students by age ascending", () => {
+    const result = sortStudents(students, "age", "asc");
+    expect(result).toEqual([
+      { name: "Bob", grade: 70, age: 19 },
+      { name: "Charlie", grade: 80, age: 20 },
+      { name: "Alice", grade: 95, age: 22 },
+    ]);
+  });
+
+  it("should return empty array for null input", () => {
+    const result = sortStudents(null, "grade");
+    expect(result).toEqual([]);
+  });
+
+  it("should return empty array for empty input", () => {
+    const result = sortStudents([], "grade");
+    expect(result).toEqual([]);
+  });
+
+  it("should not modify the original array", () => {
+    const original = [
+      { name: "Charlie", grade: 80, age: 20 },
+      { name: "Alice", grade: 95, age: 22 },
+      { name: "Bob", grade: 70, age: 19 },
+    ];
+    const copy = [...original];
+
+    sortStudents(original, "grade");
+
+    expect(original).toEqual(copy);
+  });
+
+  it("should default to ascending order", () => {
+    const result = sortStudents(students, "grade");  
+    expect(result).toEqual([
+      { name: "Bob", grade: 70, age: 19 },
+      { name: "Charlie", grade: 80, age: 20 },
+      { name: "Alice", grade: 95, age: 22 },
+    ]);
   });
 });

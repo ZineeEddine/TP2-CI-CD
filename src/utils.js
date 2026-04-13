@@ -44,9 +44,27 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
+
+
+function sortStudents(students, sortBy, order = "asc") {
+  if (!students || students.length === 0) return [];
+
+  const copy = [...students];
+  const dir = order === "desc" ? -1 : 1;
+
+  copy.sort((a, b) => {
+    if (a[sortBy] < b[sortBy]) return -1 * dir;
+    if (a[sortBy] > b[sortBy]) return 1 * dir;
+    return 0;
+  });
+
+  return copy;
+}
+
 module.exports = {
   capitalize,
   calculateAverage,
   slugify,
   clamp,
+  sortStudents,
 };
