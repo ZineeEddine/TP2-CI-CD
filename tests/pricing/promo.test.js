@@ -67,7 +67,7 @@ describe("applyPromoCode", () => {
     expect(result).toBe(0.0);
   });
 
-  it("should handle subtotal 0 → 0", () => {
+  it("should handle subtotal 0 → null (minOrder not met)", () => {
     const result = applyPromoCode(0, "BIENVENUE20", promoCodes);
     expect(result).toBeNull();
   });
