@@ -1,8 +1,8 @@
 const express = require("express");
 const { calculateOrderTotal } = require("../pricing/order");
 const { applyPromoCode } = require("../pricing/promo");
-const { calculateSurge } = require("../pricing/surge");
-const { createOrder, getOrderById, resetOrders } = require("./orders.service");
+// const { calculateSurge } = require("../pricing/surge");
+const { createOrder, getOrderById } = require("./orders.service");
 
 const router = express.Router();
 
@@ -27,6 +27,7 @@ router.post("/orders/simulate", (req, res) => {
 
     res.status(200).json(result);
   } catch (err) {
+    console.error("/orders/simulate error:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -62,6 +63,7 @@ router.post("/orders", (req, res) => {
 
     res.status(201).json(order);
   } catch (err) {
+    console.error("/orders error:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

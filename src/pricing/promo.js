@@ -4,17 +4,15 @@ function applyPromoCode(subtotal, promoCode, promoCodes) {
   if (!promoCode || typeof promoCode !== "string") return subtotal;
 
   const rule = promoCodes.find((p) => p.code === promoCode);
-
   if (!rule) return null;
 
   const now = new Date();
   const expiresAt = new Date(rule.expiresAt);
-
   if (now > expiresAt) return null;
 
   if (subtotal < rule.minOrder) return null;
 
-  let discount = 0;
+  let discount;
 
   if (rule.type === "percentage") {
     const value = Number(rule.value);
